@@ -16,16 +16,17 @@ color:white;
 }
 
 .logo{
-width:180px;
-height:180px;
+width:170px;
+height:170px;
 object-fit:cover;
 display:block;
 margin:auto;
 border-radius:20px;
+border:4px solid gold;
 }
 
 .appName{
-font-size:38px;
+font-size:36px;
 font-weight:bold;
 text-align:center;
 margin-top:10px;
@@ -55,6 +56,7 @@ button{
 background:gold;
 color:black;
 font-weight:bold;
+cursor:pointer;
 }
 
 .customer{
@@ -64,16 +66,17 @@ border-radius:12px;
 margin-top:12px;
 }
 
-.topFlex{
-display:flex;
-gap:10px;
-}
-
 .smallBtn{
 width:auto;
-padding:8px 12px;
+padding:7px 10px;
+font-size:13px;
 margin-right:5px;
-font-size:14px;
+margin-top:5px;
+}
+
+.flex{
+display:flex;
+gap:10px;
 }
 
 .actionBtns{
@@ -88,11 +91,13 @@ margin-top:10px;
 
 <body>
 
-<!-- LOGIN -->
+<!-- LOGIN PAGE -->
 
 <div class="card" id="loginPage">
 
-<img src="https://i.ibb.co/Qv5m0hD/subramanya.png" class="logo">
+<img
+src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Lord_Murugan.jpg/320px-Lord_Murugan.jpg"
+class="logo">
 
 <div class="appName">
 Loan App
@@ -100,11 +105,17 @@ Loan App
 
 <h2 style="text-align:center;">Login</h2>
 
-<input type="text" id="username" placeholder="User ID">
+<input type="text"
+id="username"
+placeholder="User ID">
 
-<input type="password" id="password" placeholder="Password">
+<input type="password"
+id="password"
+placeholder="Password">
 
-<button onclick="loginUser()">LOGIN</button>
+<button onclick="loginUser()">
+LOGIN
+</button>
 
 </div>
 
@@ -112,9 +123,12 @@ Loan App
 
 <div id="mainApp" style="display:none;">
 
-<img src="https://i.ibb.co/Qv5m0hD/subramanya.png" class="logo">
+<img
+src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Lord_Murugan.jpg/320px-Lord_Murugan.jpg"
+class="logo">
 
-<div class="appName" id="topName">
+<div class="appName"
+id="topName">
 శ్రీ షణ్ముఖ
 </div>
 
@@ -124,75 +138,123 @@ Loan App
 
 <h2>📊 Dashboard</h2>
 
-<button onclick="showPage('paymentPage')">➕ Add Payment</button>
+<button onclick="showPage('paymentPage')">
+➕ Add Payment
+</button>
 
-<button onclick="showPage('collectionPage')">💰 Add Collection</button>
+<button onclick="showPage('collectionPage')">
+💰 Add Collection
+</button>
 
-<button onclick="showPage('detailsPage')">📄 Customer Details</button>
+<button onclick="showPage('detailsPage')">
+📄 Customer Details
+</button>
 
-<button onclick="showPage('searchPage')">🔍 Search Customer</button>
+<button onclick="showPage('searchPage')">
+🔍 Search Customer
+</button>
 
-<button onclick="showPage('calendarPage')">📅 Collection Calendar</button>
+<button onclick="showPage('calendarPage')">
+📅 Collection Calendar
+</button>
 
-<button onclick="showPage('addressPage')">📞 Address & Phone</button>
+<button onclick="showPage('addressPage')">
+📞 Address & Phone
+</button>
 
 </div>
 
-<!-- PAYMENT -->
+<!-- PAYMENT PAGE -->
 
-<div class="card" id="paymentPage" style="display:none;">
+<div class="card"
+id="paymentPage"
+style="display:none;">
 
 <h2>Add Payment</h2>
 
-<input type="number" id="series" placeholder="Serial Number">
+<input type="number"
+id="series"
+placeholder="Serial Number">
 
-<input type="text" id="name" placeholder="Customer Name">
+<input type="text"
+id="name"
+placeholder="Customer Name">
 
-<input type="number" id="phone" placeholder="Phone Number">
+<input type="number"
+id="phone"
+placeholder="Phone Number">
 
-<textarea id="address" placeholder="Customer Address"></textarea>
+<textarea
+id="address"
+placeholder="Customer Address"></textarea>
 
-<input type="number" id="amount" placeholder="Amount">
+<input type="number"
+id="amount"
+placeholder="Amount">
 
-<input type="number" id="weeks" placeholder="Weeks" onkeyup="calculateDetails()">
+<input type="number"
+id="weeks"
+placeholder="Weeks"
+onkeyup="calculateDetails()">
 
-<input type="date" id="givenDate" onchange="calculateDetails()">
+<input type="date"
+id="givenDate"
+onchange="calculateDetails()">
 
-<input type="date" id="closingDate">
+<input type="date"
+id="closingDate">
 
-<input type="number" id="weeklyPayment" placeholder="Weekly Payment">
+<input type="number"
+id="weeklyPayment"
+placeholder="Weekly Payment">
 
-<button onclick="saveCustomer()">SAVE CUSTOMER</button>
+<button onclick="saveCustomer()">
+SAVE CUSTOMER
+</button>
 
 </div>
 
-<!-- COLLECTION -->
+<!-- COLLECTION PAGE -->
 
-<div class="card" id="collectionPage" style="display:none;">
+<div class="card"
+id="collectionPage"
+style="display:none;">
 
 <h2>Add Collection</h2>
 
-<input type="date" id="selectedCollectionDate">
+<input type="date"
+id="selectedCollectionDate">
 
-<div class="topFlex">
+<div class="flex">
 
-<input type="number" id="collectionSeries" placeholder="Serial Number">
+<input type="number"
+id="collectionSeries"
+placeholder="Serial Number">
 
-<input type="number" id="collectionAmount" placeholder="Amount">
+<input type="number"
+id="collectionAmount"
+placeholder="Amount">
 
 </div>
 
-<button onclick="addCollection()">ADD COLLECTION</button>
+<button onclick="addCollection()">
+ADD COLLECTION
+</button>
 
 <div id="collectionList"></div>
 
-<h3>Total : ₹<span id="totalCollection">0</span></h3>
+<h3>
+Total :
+₹<span id="totalCollection">0</span>
+</h3>
 
 </div>
 
-<!-- DETAILS -->
+<!-- CUSTOMER DETAILS -->
 
-<div class="card" id="detailsPage" style="display:none;">
+<div class="card"
+id="detailsPage"
+style="display:none;">
 
 <h2>Customer Details</h2>
 
@@ -202,11 +264,16 @@ Loan App
 
 <!-- SEARCH -->
 
-<div class="card" id="searchPage" style="display:none;">
+<div class="card"
+id="searchPage"
+style="display:none;">
 
 <h2>Search Customer</h2>
 
-<input type="text" id="search" placeholder="Search" onkeyup="searchCustomer()">
+<input type="text"
+id="search"
+placeholder="Search Customer"
+onkeyup="searchCustomer()">
 
 <div id="searchResults"></div>
 
@@ -214,21 +281,30 @@ Loan App
 
 <!-- CALENDAR -->
 
-<div class="card" id="calendarPage" style="display:none;">
+<div class="card"
+id="calendarPage"
+style="display:none;">
 
 <h2>Daily Collection</h2>
 
-<input type="date" id="calendarDate" onchange="showCalendarCollection()">
+<input type="date"
+id="calendarDate"
+onchange="showCalendarCollection()">
 
 <div id="calendarResults"></div>
 
-<h3>Total : ₹<span id="calendarTotal">0</span></h3>
+<h3>
+Total :
+₹<span id="calendarTotal">0</span>
+</h3>
 
 </div>
 
 <!-- ADDRESS -->
 
-<div class="card" id="addressPage" style="display:none;">
+<div class="card"
+id="addressPage"
+style="display:none;">
 
 <h2>Address & Phone</h2>
 
@@ -250,23 +326,31 @@ let collections=[];
 
 function loginUser(){
 
-const user=document.getElementById('username').value;
+const user =
+document.getElementById('username').value;
 
-const pass=document.getElementById('password').value;
+const pass =
+document.getElementById('password').value;
 
 if(user==='shanmuka' && pass==='shanmuka99'){
 
 currentUser='shanmuka';
 
-document.getElementById('topName').innerText='శ్రీ షణ్ముఖ';
+document.getElementById('topName')
+.innerText='శ్రీ షణ్ముఖ';
 
 }
 
-else if(user==='Sivagowri' && pass==='Sivagowri99'){
+else if(
+user==='Sivagowri'
+&&
+pass==='Sivagowri99'
+){
 
 currentUser='sivagowri';
 
-document.getElementById('topName').innerText='Siva Gowri';
+document.getElementById('topName')
+.innerText='Siva Gowri';
 
 }
 
@@ -282,9 +366,11 @@ loadCustomers();
 
 loadCollections();
 
-document.getElementById('loginPage').style.display='none';
+document.getElementById('loginPage')
+.style.display='none';
 
-document.getElementById('mainApp').style.display='block';
+document.getElementById('mainApp')
+.style.display='block';
 
 }
 
@@ -303,23 +389,32 @@ const pages=[
 
 pages.forEach(page=>{
 
-document.getElementById(page).style.display='none';
+document.getElementById(page)
+.style.display='none';
 
 });
 
-document.getElementById(id).style.display='block';
+document.getElementById(id)
+.style.display='block';
 
 }
 
-// CALCULATE
+// AUTO CALCULATE
 
 function calculateDetails(){
 
-const amount=Number(document.getElementById('amount').value);
+const amount=
+Number(
+document.getElementById('amount').value
+);
 
-const weeks=Number(document.getElementById('weeks').value);
+const weeks=
+Number(
+document.getElementById('weeks').value
+);
 
-const givenDate=document.getElementById('givenDate').value;
+const givenDate=
+document.getElementById('givenDate').value;
 
 if(amount && weeks){
 
@@ -330,13 +425,514 @@ Math.ceil(amount/weeks);
 
 if(givenDate && weeks){
 
-const date=new Date(givenDate);
+const d=new Date(givenDate);
 
-date.setDate(date.getDate() + (weeks*7));
+d.setDate(d.getDate() + (weeks*7));
 
 document.getElementById('closingDate').value=
-date.toISOString().split('T')[0];
+d.toISOString().split('T')[0];
 
 }
 
 }
+
+// SAVE CUSTOMER
+
+function saveCustomer(){
+
+const customer={
+
+id:Date.now(),
+
+series:
+document.getElementById('series').value,
+
+name:
+document.getElementById('name').value,
+
+phone:
+document.getElementById('phone').value,
+
+address:
+document.getElementById('address').value,
+
+amount:Number(
+document.getElementById('amount').value
+),
+
+weeks:Number(
+document.getElementById('weeks').value
+),
+
+givenDate:
+document.getElementById('givenDate').value,
+
+closingDate:
+document.getElementById('closingDate').value,
+
+weeklyPayment:Number(
+document.getElementById('weeklyPayment').value
+),
+
+paid:0,
+
+balance:Number(
+document.getElementById('amount').value
+),
+
+history:[]
+
+};
+
+customers.push(customer);
+
+localStorage.setItem(
+currentUser+'_customers',
+JSON.stringify(customers)
+);
+
+alert('Customer Saved');
+
+loadCustomers();
+
+}
+
+// LOAD CUSTOMERS
+
+function loadCustomers(){
+
+customers=
+JSON.parse(
+localStorage.getItem(
+currentUser+'_customers'
+)
+) || [];
+
+renderDetails();
+
+renderAddress();
+
+}
+
+// ADD COLLECTION
+
+function addCollection(){
+
+const series=
+document.getElementById('collectionSeries').value;
+
+const amount=
+Number(
+document.getElementById('collectionAmount').value
+);
+
+const selectedDate=
+document.getElementById('selectedCollectionDate').value;
+
+const customer=
+customers.find(c=>c.series==series);
+
+if(!customer){
+
+alert('Customer Not Found');
+
+return;
+
+}
+
+customer.paid += amount;
+
+customer.balance =
+customer.amount - customer.paid;
+
+customer.history.push({
+
+date:selectedDate,
+
+amount:amount
+
+});
+
+collections.push({
+
+id:Date.now(),
+
+date:selectedDate,
+
+series:customer.series,
+
+name:customer.name,
+
+amount:amount
+
+});
+
+localStorage.setItem(
+currentUser+'_customers',
+JSON.stringify(customers)
+);
+
+localStorage.setItem(
+currentUser+'_collections',
+JSON.stringify(collections)
+);
+
+alert('Collection Added');
+
+loadCustomers();
+
+loadCollections();
+
+}
+
+// LOAD COLLECTIONS
+
+function loadCollections(){
+
+collections=
+JSON.parse(
+localStorage.getItem(
+currentUser+'_collections'
+)
+) || [];
+
+renderCollection();
+
+}
+
+// COLLECTION VIEW
+
+function renderCollection(){
+
+const list=
+document.getElementById('collectionList');
+
+list.innerHTML='';
+
+let total=0;
+
+const selectedDate=
+document.getElementById('selectedCollectionDate').value;
+
+collections.forEach(c=>{
+
+if(c.date==selectedDate){
+
+total += Number(c.amount);
+
+list.innerHTML += `
+
+<div class="customer">
+
+#${c.series} - ${c.name}
+
+<br><br>
+
+₹${c.amount}
+
+<br><br>
+
+${c.date}
+
+</div>
+
+`;
+
+}
+
+});
+
+document.getElementById('totalCollection')
+.innerText=total;
+
+}
+
+// CUSTOMER DETAILS
+
+function renderDetails(){
+
+const list=
+document.getElementById('customerDetails');
+
+list.innerHTML='';
+
+customers.forEach(c=>{
+
+list.innerHTML += `
+
+<div class="customer">
+
+<h3>
+#${c.series} - ${c.name}
+</h3>
+
+<p>📞 ${c.phone}</p>
+
+<p>💰 Amount : ₹${c.amount}</p>
+
+<p>✅ Paid : ₹${c.paid}</p>
+
+<p>⚠️ Balance : ₹${c.balance}</p>
+
+<p>📅 Close : ${c.closingDate}</p>
+
+<button class="smallBtn"
+onclick="viewCustomer(${c.id})">
+👁 View
+</button>
+
+<button class="smallBtn"
+onclick="editCustomer(${c.id})">
+✏ Edit
+</button>
+
+<button class="smallBtn"
+onclick="deleteCustomer(${c.id})">
+🗑 Delete
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+// VIEW CUSTOMER
+
+function viewCustomer(id){
+
+const c=
+customers.find(x=>x.id==id);
+
+let history='';
+
+c.history.forEach(h=>{
+
+history +=
+`${h.date} : ₹${h.amount}\n`;
+
+});
+
+alert(
+
+`Name : ${c.name}
+
+Amount : ₹${c.amount}
+
+Paid : ₹${c.paid}
+
+Balance : ₹${c.balance}
+
+History :
+
+${history}`
+
+);
+
+}
+
+// EDIT CUSTOMER
+
+function editCustomer(id){
+
+const c=
+customers.find(x=>x.id==id);
+
+const newName=
+prompt('Edit Name',c.name);
+
+if(newName==null) return;
+
+c.name=newName;
+
+localStorage.setItem(
+currentUser+'_customers',
+JSON.stringify(customers)
+);
+
+loadCustomers();
+
+}
+
+// DELETE CUSTOMER
+
+function deleteCustomer(id){
+
+const ok=
+confirm('Delete Customer ?');
+
+if(!ok) return;
+
+customers=
+customers.filter(c=>c.id!=id);
+
+localStorage.setItem(
+currentUser+'_customers',
+JSON.stringify(customers)
+);
+
+loadCustomers();
+
+}
+
+// SEARCH
+
+function searchCustomer(){
+
+const value=
+document.getElementById('search')
+.value.toLowerCase();
+
+const results=
+document.getElementById('searchResults');
+
+results.innerHTML='';
+
+customers.forEach(c=>{
+
+if(
+
+c.name.toLowerCase()
+.includes(value)
+
+||
+
+String(c.series)
+.includes(value)
+
+){
+
+results.innerHTML += `
+
+<div class="customer">
+
+<h3>
+#${c.series} - ${c.name}
+</h3>
+
+<p>
+Balance : ₹${c.balance}
+</p>
+
+</div>
+
+`;
+
+}
+
+});
+
+}
+
+// CALENDAR
+
+function showCalendarCollection(){
+
+const date=
+document.getElementById('calendarDate').value;
+
+const result=
+document.getElementById('calendarResults');
+
+result.innerHTML='';
+
+let total=0;
+
+collections.forEach(c=>{
+
+if(c.date==date){
+
+total += Number(c.amount);
+
+result.innerHTML += `
+
+<div class="customer">
+
+#${c.series} - ${c.name}
+
+<br><br>
+
+₹${c.amount}
+
+</div>
+
+`;
+
+}
+
+});
+
+document.getElementById('calendarTotal')
+.innerText=total;
+
+}
+
+// ADDRESS
+
+function renderAddress(){
+
+const list=
+document.getElementById('addressList');
+
+list.innerHTML='';
+
+customers.forEach(c=>{
+
+list.innerHTML += `
+
+<div class="customer">
+
+#${c.series} - ${c.name}
+
+<br><br>
+
+📞 ${c.phone}
+
+<br><br>
+
+🏠 ${c.address}
+
+<div class="actionBtns">
+
+<a href="tel:${c.phone}"
+style="flex:1;">
+
+<button>
+📞 Call
+</button>
+
+</a>
+
+<button
+onclick="copyNumber('${c.phone}')">
+
+📋 Copy
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+// COPY NUMBER
+
+function copyNumber(number){
+
+navigator.clipboard.writeText(number);
+
+alert('Copied');
+
+}
+
+</script>
+
+</body>
+</html>
