@@ -91,7 +91,7 @@ margin-top:10px;
 
 <body>
 
-<!-- LOGIN PAGE -->
+<!-- LOGIN -->
 
 <div class="card" id="loginPage">
 
@@ -103,7 +103,9 @@ class="logo">
 Loan App
 </div>
 
-<h2 style="text-align:center;">Login</h2>
+<h2 style="text-align:center;">
+Login
+</h2>
 
 <input type="text"
 id="username"
@@ -121,7 +123,8 @@ LOGIN
 
 <!-- MAIN APP -->
 
-<div id="mainApp" style="display:none;">
+<div id="mainApp"
+style="display:none;">
 
 <img
 src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Lord_Murugan.jpg/320px-Lord_Murugan.jpg"
@@ -164,7 +167,7 @@ id="topName">
 
 </div>
 
-<!-- PAYMENT PAGE -->
+<!-- PAYMENT -->
 
 <div class="card"
 id="paymentPage"
@@ -214,7 +217,7 @@ SAVE CUSTOMER
 
 </div>
 
-<!-- COLLECTION PAGE -->
+<!-- COLLECTION -->
 
 <div class="card"
 id="collectionPage"
@@ -250,7 +253,7 @@ Total :
 
 </div>
 
-<!-- CUSTOMER DETAILS -->
+<!-- DETAILS -->
 
 <div class="card"
 id="detailsPage"
@@ -272,7 +275,7 @@ style="display:none;">
 
 <input type="text"
 id="search"
-placeholder="Search Customer"
+placeholder="Search"
 onkeyup="searchCustomer()">
 
 <div id="searchResults"></div>
@@ -314,17 +317,66 @@ style="display:none;">
 
 </div>
 
-<script>
+<script type="module">
 
-let currentUser='';
+import { initializeApp }
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-let customers=[];
+import {
+getFirestore,
+collection,
+addDoc,
+getDocs,
+deleteDoc,
+doc,
+updateDoc
+}
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-let collections=[];
+// FIREBASE
+
+const firebaseConfig = {
+
+apiKey:
+"AIzaSyCd7xhIqcBK7JKIncLRzr4phBTklmiXXmA",
+
+authDomain:
+"shanmuka-lone-app.firebaseapp.com",
+
+projectId:
+"shanmuka-lone-app",
+
+storageBucket:
+"shanmuka-lone-app.firebasestorage.app",
+
+messagingSenderId:
+"550746602562",
+
+appId:
+"1:550746602562:web:a9cb01a15351a2522ac1db"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+// GLOBAL
+
+window.currentUser='';
+
+window.customers=[];
+
+window.collections=[];
 
 // LOGIN
 
-function loginUser(){
+window.loginUser =
+async function(){
 
 const user =
 document.getElementById('username').value;
@@ -332,7 +384,11 @@ document.getElementById('username').value;
 const pass =
 document.getElementById('password').value;
 
-if(user==='shanmuka' && pass==='shanmuka99'){
+if(
+user==='shanmuka'
+&&
+pass==='shanmuka99'
+){
 
 currentUser='shanmuka';
 
@@ -362,9 +418,9 @@ return;
 
 }
 
-loadCustomers();
+await loadCustomers();
 
-loadCollections();
+await loadCollections();
 
 document.getElementById('loginPage')
 .style.display='none';
@@ -376,15 +432,18 @@ document.getElementById('mainApp')
 
 // PAGE
 
-function showPage(id){
+window.showPage =
+function(id){
 
 const pages=[
+
 'paymentPage',
 'collectionPage',
 'detailsPage',
 'searchPage',
 'calendarPage',
 'addressPage'
+
 ];
 
 pages.forEach(page=>{
@@ -399,9 +458,10 @@ document.getElementById(id)
 
 }
 
-// AUTO CALCULATE
+// CALCULATE
 
-function calculateDetails(){
+window.calculateDetails =
+function(){
 
 const amount=
 Number(
@@ -427,7 +487,9 @@ if(givenDate && weeks){
 
 const d=new Date(givenDate);
 
-d.setDate(d.getDate() + (weeks*7));
+d.setDate(
+d.getDate() + (weeks*7)
+);
 
 document.getElementById('closingDate').value=
 d.toISOString().split('T')[0];
@@ -438,7 +500,8 @@ d.toISOString().split('T')[0];
 
 // SAVE CUSTOMER
 
-function saveCustomer(){
+window.saveCustomer =
+async function(){
 
 const customer={
 
@@ -484,29 +547,51 @@ history:[]
 
 };
 
-customers.push(customer);
+await addDoc(
 
-localStorage.setItem(
-currentUser+'_customers',
-JSON.stringify(customers)
+collection(
+db,
+currentUser + "_customers"
+),
+
+customer
+
 );
 
-alert('Customer Saved');
+alert("Customer Saved");
 
-loadCustomers();
+await loadCustomers();
 
 }
 
 // LOAD CUSTOMERS
 
-function loadCustomers(){
+window.loadCustomers =
+async function(){
 
-customers=
-JSON.parse(
-localStorage.getItem(
-currentUser+'_customers'
+customers=[];
+
+const querySnapshot =
+await getDocs(
+
+collection(
+db,
+currentUser + "_customers"
 )
-) || [];
+
+);
+
+querySnapshot.forEach((d)=>{
+
+customers.push({
+
+firebaseId:d.id,
+
+...d.data()
+
+});
+
+});
 
 renderDetails();
 
@@ -516,25 +601,36 @@ renderAddress();
 
 // ADD COLLECTION
 
-function addCollection(){
+window.addCollection =
+async function(){
 
 const series=
-document.getElementById('collectionSeries').value;
+document.getElementById(
+'collectionSeries'
+).value;
 
 const amount=
 Number(
-document.getElementById('collectionAmount').value
+document.getElementById(
+'collectionAmount'
+).value
 );
 
 const selectedDate=
-document.getElementById('selectedCollectionDate').value;
+document.getElementById(
+'selectedCollectionDate'
+).value;
 
 const customer=
-customers.find(c=>c.series==series);
+customers.find(
+c=>c.series==series
+);
 
 if(!customer){
 
-alert('Customer Not Found');
+alert(
+'Customer Not Found'
+);
 
 return;
 
@@ -543,7 +639,8 @@ return;
 customer.paid += amount;
 
 customer.balance =
-customer.amount - customer.paid;
+customer.amount -
+customer.paid;
 
 customer.history.push({
 
@@ -553,66 +650,107 @@ amount:amount
 
 });
 
-collections.push({
+await updateDoc(
 
-id:Date.now(),
+doc(
+db,
+currentUser + "_customers",
+customer.firebaseId
+),
 
-date:selectedDate,
+{
+
+paid:customer.paid,
+
+balance:customer.balance,
+
+history:customer.history
+
+}
+
+);
+
+await addDoc(
+
+collection(
+db,
+currentUser + "_collections"
+),
+
+{
 
 series:customer.series,
 
 name:customer.name,
 
-amount:amount
+amount:amount,
 
-});
+date:selectedDate
 
-localStorage.setItem(
-currentUser+'_customers',
-JSON.stringify(customers)
+}
+
 );
 
-localStorage.setItem(
-currentUser+'_collections',
-JSON.stringify(collections)
+alert(
+"Collection Added"
 );
 
-alert('Collection Added');
+await loadCustomers();
 
-loadCustomers();
-
-loadCollections();
+await loadCollections();
 
 }
 
 // LOAD COLLECTIONS
 
-function loadCollections(){
+window.loadCollections =
+async function(){
 
-collections=
-JSON.parse(
-localStorage.getItem(
-currentUser+'_collections'
+collections=[];
+
+const querySnapshot =
+await getDocs(
+
+collection(
+db,
+currentUser + "_collections"
 )
-) || [];
+
+);
+
+querySnapshot.forEach((d)=>{
+
+collections.push({
+
+firebaseId:d.id,
+
+...d.data()
+
+});
+
+});
 
 renderCollection();
 
 }
 
-// COLLECTION VIEW
+// RENDER COLLECTION
 
 function renderCollection(){
 
 const list=
-document.getElementById('collectionList');
+document.getElementById(
+'collectionList'
+);
 
 list.innerHTML='';
 
 let total=0;
 
 const selectedDate=
-document.getElementById('selectedCollectionDate').value;
+document.getElementById(
+'selectedCollectionDate'
+).value;
 
 collections.forEach(c=>{
 
@@ -624,7 +762,9 @@ list.innerHTML += `
 
 <div class="customer">
 
-#${c.series} - ${c.name}
+#${c.series}
+-
+${c.name}
 
 <br><br>
 
@@ -642,17 +782,20 @@ ${c.date}
 
 });
 
-document.getElementById('totalCollection')
-.innerText=total;
+document.getElementById(
+'totalCollection'
+).innerText=total;
 
 }
 
-// CUSTOMER DETAILS
+// DETAILS
 
 function renderDetails(){
 
 const list=
-document.getElementById('customerDetails');
+document.getElementById(
+'customerDetails'
+);
 
 list.innerHTML='';
 
@@ -663,32 +806,56 @@ list.innerHTML += `
 <div class="customer">
 
 <h3>
-#${c.series} - ${c.name}
+
+#${c.series}
+-
+${c.name}
+
 </h3>
 
-<p>📞 ${c.phone}</p>
+<p>
+📞 ${c.phone}
+</p>
 
-<p>💰 Amount : ₹${c.amount}</p>
+<p>
+💰 Amount :
+₹${c.amount}
+</p>
 
-<p>✅ Paid : ₹${c.paid}</p>
+<p>
+✅ Paid :
+₹${c.paid}
+</p>
 
-<p>⚠️ Balance : ₹${c.balance}</p>
+<p>
+⚠️ Balance :
+₹${c.balance}
+</p>
 
-<p>📅 Close : ${c.closingDate}</p>
+<p>
+📅 Close :
+${c.closingDate}
+</p>
 
 <button class="smallBtn"
 onclick="viewCustomer(${c.id})">
+
 👁 View
+
 </button>
 
 <button class="smallBtn"
 onclick="editCustomer(${c.id})">
+
 ✏ Edit
+
 </button>
 
 <button class="smallBtn"
 onclick="deleteCustomer(${c.id})">
+
 🗑 Delete
+
 </button>
 
 </div>
@@ -699,12 +866,15 @@ onclick="deleteCustomer(${c.id})">
 
 }
 
-// VIEW CUSTOMER
+// VIEW
 
-function viewCustomer(id){
+window.viewCustomer =
+function(id){
 
 const c=
-customers.find(x=>x.id==id);
+customers.find(
+x=>x.id==id
+);
 
 let history='';
 
@@ -733,60 +903,96 @@ ${history}`
 
 }
 
-// EDIT CUSTOMER
+// EDIT
 
-function editCustomer(id){
+window.editCustomer =
+async function(id){
 
-const c=
-customers.find(x=>x.id==id);
+const customer=
+customers.find(
+c=>c.id==id
+);
 
 const newName=
-prompt('Edit Name',c.name);
+prompt(
+'Edit Name',
+customer.name
+);
 
 if(newName==null) return;
 
-c.name=newName;
+await updateDoc(
 
-localStorage.setItem(
-currentUser+'_customers',
-JSON.stringify(customers)
-);
+doc(
+db,
+currentUser + "_customers",
+customer.firebaseId
+),
 
-loadCustomers();
+{
+
+name:newName
 
 }
 
-// DELETE CUSTOMER
+);
 
-function deleteCustomer(id){
+alert(
+"Updated"
+);
+
+await loadCustomers();
+
+}
+
+// DELETE
+
+window.deleteCustomer =
+async function(id){
 
 const ok=
-confirm('Delete Customer ?');
+confirm(
+'Delete Customer ?'
+);
 
 if(!ok) return;
 
-customers=
-customers.filter(c=>c.id!=id);
-
-localStorage.setItem(
-currentUser+'_customers',
-JSON.stringify(customers)
+const customer=
+customers.find(
+c=>c.id==id
 );
 
-loadCustomers();
+await deleteDoc(
+
+doc(
+db,
+currentUser + "_customers",
+customer.firebaseId
+)
+
+);
+
+alert(
+"Deleted"
+);
+
+await loadCustomers();
 
 }
 
 // SEARCH
 
-function searchCustomer(){
+window.searchCustomer =
+function(){
 
 const value=
 document.getElementById('search')
 .value.toLowerCase();
 
 const results=
-document.getElementById('searchResults');
+document.getElementById(
+'searchResults'
+);
 
 results.innerHTML='';
 
@@ -809,11 +1015,18 @@ results.innerHTML += `
 <div class="customer">
 
 <h3>
-#${c.series} - ${c.name}
+
+#${c.series}
+-
+${c.name}
+
 </h3>
 
 <p>
-Balance : ₹${c.balance}
+
+Balance :
+₹${c.balance}
+
 </p>
 
 </div>
@@ -828,13 +1041,18 @@ Balance : ₹${c.balance}
 
 // CALENDAR
 
-function showCalendarCollection(){
+window.showCalendarCollection =
+function(){
 
 const date=
-document.getElementById('calendarDate').value;
+document.getElementById(
+'calendarDate'
+).value;
 
 const result=
-document.getElementById('calendarResults');
+document.getElementById(
+'calendarResults'
+);
 
 result.innerHTML='';
 
@@ -850,7 +1068,9 @@ result.innerHTML += `
 
 <div class="customer">
 
-#${c.series} - ${c.name}
+#${c.series}
+-
+${c.name}
 
 <br><br>
 
@@ -864,8 +1084,9 @@ result.innerHTML += `
 
 });
 
-document.getElementById('calendarTotal')
-.innerText=total;
+document.getElementById(
+'calendarTotal'
+).innerText=total;
 
 }
 
@@ -874,7 +1095,9 @@ document.getElementById('calendarTotal')
 function renderAddress(){
 
 const list=
-document.getElementById('addressList');
+document.getElementById(
+'addressList'
+);
 
 list.innerHTML='';
 
@@ -884,7 +1107,9 @@ list.innerHTML += `
 
 <div class="customer">
 
-#${c.series} - ${c.name}
+#${c.series}
+-
+${c.name}
 
 <br><br>
 
@@ -900,7 +1125,9 @@ list.innerHTML += `
 style="flex:1;">
 
 <button>
+
 📞 Call
+
 </button>
 
 </a>
@@ -922,9 +1149,10 @@ onclick="copyNumber('${c.phone}')">
 
 }
 
-// COPY NUMBER
+// COPY
 
-function copyNumber(number){
+window.copyNumber =
+function(number){
 
 navigator.clipboard.writeText(number);
 
