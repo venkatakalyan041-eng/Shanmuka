@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loan App</title>
+
+<style>
+
+body{
+margin:0;
+padding:15px;
+font-family:Arial,sans-serif;
+background:#081229;
+color:white;
+}
+
+.logo{
+width:180px;
+height:180px;
+object-fit:cover;
+display:block;
+margin:auto;
+border-radius:20px;
+}
+
+.appName{
+font-size:38px;
+font-weight:bold;
+text-align:center;
+margin-top:10px;
+background:linear-gradient(45deg,#ffcc00,#ff0066,#00ffff);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.card{
+background:#1e293b;
+padding:18px;
+border-radius:15px;
+margin-top:20px;
+}
+
+input,textarea,button{
+width:100%;
+padding:12px;
+margin-top:10px;
+border:none;
+border-radius:10px;
+font-size:16px;
+box-sizing:border-box;
+}
+
+button{
+background:gold;
+color:black;
+font-weight:bold;
+}
+
+.customer{
+background:#334155;
+padding:15px;
+border-radius:12px;
+margin-top:12px;
+}
+
+.topFlex{
+display:flex;
+gap:10px;
+}
+
+.smallBtn{
+width:auto;
+padding:8px 12px;
+margin-right:5px;
+font-size:14px;
+}
+
+.actionBtns{
+display:flex;
+gap:10px;
+margin-top:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- LOGIN -->
+
+<div class="card" id="loginPage">
+
+<img src="https://i.ibb.co/Qv5m0hD/subramanya.png" class="logo">
+
+<div class="appName">
+Loan App
+</div>
+
+<h2 style="text-align:center;">Login</h2>
+
+<input type="text" id="username" placeholder="User ID">
+
+<input type="password" id="password" placeholder="Password">
+
+<button onclick="loginUser()">LOGIN</button>
+
+</div>
+
+<!-- MAIN APP -->
+
+<div id="mainApp" style="display:none;">
+
+<img src="https://i.ibb.co/Qv5m0hD/subramanya.png" class="logo">
+
+<div class="appName" id="topName">
+శ్రీ షణ్ముఖ
+</div>
+
+<!-- DASHBOARD -->
+
+<div class="card">
+
+<h2>📊 Dashboard</h2>
+
+<button onclick="showPage('paymentPage')">➕ Add Payment</button>
+
+<button onclick="showPage('collectionPage')">💰 Add Collection</button>
+
+<button onclick="showPage('detailsPage')">📄 Customer Details</button>
+
+<button onclick="showPage('searchPage')">🔍 Search Customer</button>
+
+<button onclick="showPage('calendarPage')">📅 Collection Calendar</button>
+
+<button onclick="showPage('addressPage')">📞 Address & Phone</button>
+
+</div>
+
+<!-- PAYMENT -->
+
+<div class="card" id="paymentPage" style="display:none;">
+
+<h2>Add Payment</h2>
+
+<input type="number" id="series" placeholder="Serial Number">
+
+<input type="text" id="name" placeholder="Customer Name">
+
+<input type="number" id="phone" placeholder="Phone Number">
+
+<textarea id="address" placeholder="Customer Address"></textarea>
+
+<input type="number" id="amount" placeholder="Amount">
+
+<input type="number" id="weeks" placeholder="Weeks" onkeyup="calculateDetails()">
+
+<input type="date" id="givenDate" onchange="calculateDetails()">
+
+<input type="date" id="closingDate">
+
+<input type="number" id="weeklyPayment" placeholder="Weekly Payment">
+
+<button onclick="saveCustomer()">SAVE CUSTOMER</button>
+
+</div>
+
+<!-- COLLECTION -->
+
+<div class="card" id="collectionPage" style="display:none;">
+
+<h2>Add Collection</h2>
+
+<input type="date" id="selectedCollectionDate">
+
+<div class="topFlex">
+
+<input type="number" id="collectionSeries" placeholder="Serial Number">
+
+<input type="number" id="collectionAmount" placeholder="Amount">
+
+</div>
+
+<button onclick="addCollection()">ADD COLLECTION</button>
+
+<div id="collectionList"></div>
+
+<h3>Total : ₹<span id="totalCollection">0</span></h3>
+
+</div>
+
+<!-- DETAILS -->
+
+<div class="card" id="detailsPage" style="display:none;">
+
+<h2>Customer Details</h2>
+
+<div id="customerDetails"></div>
+
+</div>
+
+<!-- SEARCH -->
+
+<div class="card" id="searchPage" style="display:none;">
+
+<h2>Search Customer</h2>
+
+<input type="text" id="search" placeholder="Search" onkeyup="searchCustomer()">
+
+<div id="searchResults"></div>
+
+</div>
+
+<!-- CALENDAR -->
+
+<div class="card" id="calendarPage" style="display:none;">
+
+<h2>Daily Collection</h2>
+
+<input type="date" id="calendarDate" onchange="showCalendarCollection()">
+
+<div id="calendarResults"></div>
+
+<h3>Total : ₹<span id="calendarTotal">0</span></h3>
+
+</div>
+
+<!-- ADDRESS -->
+
+<div class="card" id="addressPage" style="display:none;">
+
+<h2>Address & Phone</h2>
+
+<div id="addressList"></div>
+
+</div>
+
+</div>
+
+<script>
+
+let currentUser='';
+
+let customers=[];
+
+let collections=[];
+
+// LOGIN
+
+function loginUser(){
+
+const user=document.getElementById('username').value;
+
+const pass=document.getElementById('password').value;
+
+if(user==='shanmuka' && pass==='shanmuka99'){
+
+currentUser='shanmuka';
+
+document.getElementById('topName').innerText='శ్రీ షణ్ముఖ';
+
+}
+
+else if(user==='Sivagowri' && pass==='Sivagowri99'){
+
+currentUser='sivagowri';
+
+document.getElementById('topName').innerText='Siva Gowri';
+
+}
+
+else{
+
+alert('Wrong Login');
+
+return;
+
+}
+
+loadCustomers();
+
+loadCollections();
+
+document.getElementById('loginPage').style.display='none';
+
+document.getElementById('mainApp').style.display='block';
+
+}
+
+// PAGE
+
+function showPage(id){
+
+const pages=[
+'paymentPage',
+'collectionPage',
+'detailsPage',
+'searchPage',
+'calendarPage',
+'addressPage'
+];
+
+pages.forEach(page=>{
+
+document.getElementById(page).style.display='none';
+
+});
+
+document.getElementById(id).style.display='block';
+
+}
+
+// CALCULATE
+
+function calculateDetails(){
+
+const amount=Number(document.getElementById('amount').value);
+
+const weeks=Number(document.getElementById('weeks').value);
+
+const givenDate=document.getElementById('givenDate').value;
+
+if(amount && weeks){
+
+document.getElementById('weeklyPayment').value=
+Math.ceil(amount/weeks);
+
+}
+
+if(givenDate && weeks){
+
+const date=new Date(givenDate);
+
+date.setDate(date.getDate() + (weeks*7));
+
+document.getElementById('closingDate').value=
+date.toISOString().split('T')[0];
+
+}
+
+}
