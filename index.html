@@ -42,7 +42,9 @@ border-radius:15px;
 margin-top:20px;
 }
 
-input,textarea,button{
+input,
+textarea,
+button{
 width:100%;
 padding:12px;
 margin-top:10px;
@@ -503,15 +505,34 @@ d.toISOString().split('T')[0];
 window.saveCustomer =
 async function(){
 
-const customer={
+const series =
+document.getElementById('series').value;
+
+const name =
+document.getElementById('name').value;
+
+const amount =
+document.getElementById('amount').value;
+
+if(
+series=='' ||
+name=='' ||
+amount==''
+){
+
+alert('Please Fill Required Fields');
+
+return;
+
+}
+
+const customer = {
 
 id:Date.now(),
 
-series:
-document.getElementById('series').value,
+series:series,
 
-name:
-document.getElementById('name').value,
+name:name,
 
 phone:
 document.getElementById('phone').value,
@@ -519,9 +540,7 @@ document.getElementById('phone').value,
 address:
 document.getElementById('address').value,
 
-amount:Number(
-document.getElementById('amount').value
-),
+amount:Number(amount),
 
 weeks:Number(
 document.getElementById('weeks').value
@@ -539,13 +558,13 @@ document.getElementById('weeklyPayment').value
 
 paid:0,
 
-balance:Number(
-document.getElementById('amount').value
-),
+balance:Number(amount),
 
 history:[]
 
 };
+
+try{
 
 await addDoc(
 
@@ -561,6 +580,15 @@ customer
 alert("Customer Saved");
 
 await loadCustomers();
+
+}
+catch(err){
+
+alert(
+"Error : " + err.message
+);
+
+}
 
 }
 
